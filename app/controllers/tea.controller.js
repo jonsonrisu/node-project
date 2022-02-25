@@ -2,6 +2,12 @@ const multer = require('multer');
 const db = require("../models");
 const Tea = db.tea;
 
+const getPagination = (page, size) => {
+    const limit = size ? +size : 5;
+    const offset = page ? page * limit : 0;
+    return { limit, offset };
+  };
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads');
@@ -44,7 +50,12 @@ const newTea = (req, res) => {
 
 //GET all teas
 const getAllTea = (req, res) => {
-    Tea.find({}, (err, data)=>{
+    const { page, size, name } = req.query;
+    var condition = name
+      ? { name: { $regex : new RegExp(name), $options: ".*" } }
+      : {};
+        const { limit, offset } = getPagination(page, size);
+    Tea.paginate(condition, { offset, limit }, (err, data)=>{
         if (err){
             return res.json({ success: false, message:`Something went wrong, please try again. ${err}`,res:null});
         }
@@ -100,8 +111,8 @@ const newComment = (req, res) => {
 
 //DELETE 1 tea
 const deleteOneTea = (req, res) => {
-    let name = req.params.name; // get the name of tea to delete
-    Tea.deleteOne({name:name}, (err, data) => {
+    let id = req.params.id; // get the name of tea to delete
+    Tea.deleteOne({id:id}, (err, data) => {
     //if there's nothing to delete return a message
     if( data.deletedCount == 0) return res.json({success: false, message: "Tea doesn't exist."});
     //else if there's an error, return the err message

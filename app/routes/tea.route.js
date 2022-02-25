@@ -21,10 +21,9 @@ router.get('/', teaController.getAllTea);
 
 router.get('/:name', teaController.getOneTea);
 router.post('/:name', teaController.newComment);
-router.delete('/:name', teaController.deleteOneTea);
+router.delete('/:id', teaController.deleteOneTea);
 
 router.post('/', teaController.uploadImg , teaController.newTea);
-
 
 app.use('/api/tea',[authJwt.verifyToken],
 router);
