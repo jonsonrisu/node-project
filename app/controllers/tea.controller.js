@@ -1,7 +1,5 @@
 const multer = require('multer');
-
 const db = require("../models");
-
 const Tea = db.tea;
 
 const storage = multer.diskStorage({

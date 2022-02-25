@@ -12,6 +12,7 @@ const userSchem = new Schema({
   ]
 })
 
+userSchem.set('timestamps', true);
 userSchem.method("toJSON", function() {
   const { __v, _id, ...object } = this.toObject();
   object.id = _id;

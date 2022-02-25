@@ -61,7 +61,6 @@ exports.signup = (req, res) => {
     }
   });
 };
-
 exports.signin = (req, res) => {
   User.findOne({
     username: req.body.username
@@ -76,7 +75,6 @@ exports.signin = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
-
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password

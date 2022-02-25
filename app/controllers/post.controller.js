@@ -2,7 +2,6 @@ const db = require("../models");
 
 const Post = db.post;
 
-
 const getPagination = (page, size) => {
     const limit = size ? +size : 5;
     const offset = page ? page * limit : 0;
